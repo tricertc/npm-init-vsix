@@ -1,0 +1,63 @@
+{
+  "name": "npm-init-vsix",
+  "version": "1.0.0",
+  "description": "",
+  "main": "out/extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tricertc/npm-init-vsix"
+  },
+  "scripts": {
+    "clean": "rimraf dist && mkdir dist",
+    "build": "npm run clean && vsce package --out=dist/npm-init-vsix-${npm_package_version}.vsix",
+    "watch": "tsc -w -p ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "vscode": "^1.38.0"
+  },
+  "publisher": "trice0745",
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.npmInit",
+        "title": "Create package.json"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "extension.npmInit",
+          "when": "explorerResourceIsFolder"
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.8",
+    "@types/vscode": "^1.38.0",
+    "husky": "^3.0.7",
+    "lint-staged": "^9.4.1",
+    "rimraf": "^3.0.0",
+    "tslint": "^5.20.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.6.3",
+    "vsce": "^1.67.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "tslint -c tslint.json -p tsconfig.json --fix",
+      "git add"
+    ]
+  }
+}
